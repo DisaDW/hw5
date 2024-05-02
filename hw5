@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.8.2 <0.9.0;
+
+contract homework{
+    struct Event{
+        string title;
+        uint date;
+        mapping(address=>ParticipationStatus) participants;
+    }
+
+    enum ParticipationStatus{confirmed, declined}
+    Event public newEvent;
+    
+    function createEvent(string memory title, uint date) public {
+        newEvent.title = title;
+        newEvent.date = date;
+    }
+
+    function registerPartipicant() public {
+        newEvent.participants[msg.sender] = ParticipationStatus.confirmed;
+    }
+
+    function changeParticipationStatus() public {
+        newEvent.participants[msg.sender] = ParticipationStatus.declined;
+    }
+
+    function getEventDetails(address partisipant) public view returns (string memory, uint, ParticipationStatus) {
+        return (newEvent.title, newEvent.date, newEvent.participants[partisipant]);
+    }
+}
